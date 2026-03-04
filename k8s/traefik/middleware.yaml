@@ -1,0 +1,21 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: jwt-auth
+  namespace: kubelink
+spec:
+  forwardAuth:
+    address: http://auth-service.kubelink.svc.cluster.local/api/Auth/verify
+    authResponseHeaders:
+      - Authorization
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-auth
+  namespace: kubelink
+spec:
+  redirectRegex:
+    regex: "^https?://[^/]+/$"
+    replacement: "/api/Auth/"
+    permanent: false

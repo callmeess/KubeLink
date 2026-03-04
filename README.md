@@ -13,6 +13,6 @@ This project uses [Traefik](https://traefik.io/) as its ingress controller and r
 
 | Path | Service | Auth |
 |------|---------|------|
-| `/shorten/` | shorten-service (port 80) | JWT required |
+| `/shorten/` | url-shortener-service (port 80) | JWT required |
 | `/api/Auth/register/` | auth-service (port 80) | None |
 | `/` | Redirect to `/api/Auth/` (302) | None |

@@ -1,0 +1,30 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: url-shortener
+  namespace: kubelink
+spec:
+  entryPoints:
+    - websecure
+  tls:
+    secretName: kubelink-tls
+  routes:
+    - match: Host(`kubelink.com`) && PathPrefix(`/shorten/`)
+      kind: Rule
+      services:
+        - name: url-shortener-service
+          port: 80
+      middlewares:
+        - name: jwt-auth
+    - match: Host(`kubelink.com`) && PathPrefix(`/api/Auth/register/`)
+      kind: Rule
+      services:
+        - name: auth-service
+          port: 80
+    - match: Host(`kubelink.com`) && Path(`/`)
+      kind: Rule
+      services:
+        - name: auth-service
+          port: 80
+      middlewares:
+        - name: redirect-to-auth

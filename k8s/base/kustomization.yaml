@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kubelink
+
+resources:
+  - auth-db-deployment.yaml
+  - auth-service-deployment.yaml
+  - auth-service-service.yaml
+  - shortener-configmap.yaml
+  - shortener-db-deployment.yaml
+  - shortener-deployment.yaml
+  - redis-db.yaml
+  - redis-secrete.yaml
+  - jwt-policy.yaml
+  - virtualserver.yaml

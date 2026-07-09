@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: kubelink
+  namespace: argocd
+spec:
+  description: KubeLink application project
+  sourceRepos:
+    - https://github.com/callmeess/KubeLink.git
+  destinations:
+    - namespace: kubelink
+      server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

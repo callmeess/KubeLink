@@ -16,7 +16,7 @@ spec:
       containers:
         - name: auth-service
           image: authservice:latest
-          imagePullPolicy: Never 
+          imagePullPolicy: Never
           ports:
             - containerPort: 80
           env:
@@ -34,10 +34,9 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: auth-db-secret
-                  key: Jwt__Audience 
+                  key: Jwt__Audience
             - name: Jwt__Issuer
               valueFrom:
                 secretKeyRef:
                   name: auth-db-secret
-                  key: Jwt__Issuer 
-
+                  key: Jwt__Issuer

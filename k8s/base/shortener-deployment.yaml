@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shortener
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shortener
+  template:
+    metadata:
+      labels:
+        app: shortener
+    spec:
+      containers:
+        - name: shortener
+          image: shortenservice:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_ADDR
+              valueFrom:
+                secretKeyRef:
+                  name: shortener-secret
+                  key: DB_ADDR
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: shortener-secret
+                  key: DB_PASS
+            - name: APP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: shortener-config
+                  key: APP_PORT
+            - name: DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: shortener-config
+                  key: DOMAIN
+            - name: API_QOUTA
+              valueFrom:
+                configMapKeyRef:
+                  name: shortener-config
+                  key: API_QOUTA
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shortener
+spec:
+  selector:
+    app: shortener
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP
